@@ -3,34 +3,24 @@ import './App.css';
 import { Component } from 'react';
 
 class App extends Component {
-
-  constructor(props) {
-    super(props);
-
-    this.updateConter = this.updateConter.bind(this);
-    this.changeName = this.changeName.bind(this);
-
-    this.state = {
-      name: "Reginaldo",
-      conter: 0
-    }
-
+  state = {
+    name: "Reginaldo",
+    conter: 0
   }
 
-  updateConter() {
+  updateConter = () => {
     const { conter } = this.state;
 
     this.setState({ conter: conter + 1 });
   }
 
-  changeName(event) {
+  changeName = (event) => {
     event.preventDefault();
     this.setState({ name: "Reginaldo Bonaldi" });
 
     this.updateConter();
   }
   render() {
-
 
     const { name, conter } = this.state;
 
