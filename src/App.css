@@ -5,8 +5,11 @@
 
 }
 
-.posts {
+.container{
   padding: 10px;
+
+}
+.posts {
   text-align: center;
   background-color: #eee;
   display: grid;
