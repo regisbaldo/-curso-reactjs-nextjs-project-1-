@@ -2,71 +2,52 @@ import './App.css';
 import { Component } from 'react';
 class App extends Component {
   state = {
-    shouldCounter: true,
-    counter: 0,
-    posts: [
-      {
-        id: 1,
-        title: "Título 1",
-        body: "Corpo 1"
-      },
-      {
-        id: 2,
-        title: "Título 2",
-        body: "Corpo 2"
-      },
-      {
-        id: 3,
-        title: "Título 2",
-        body: "Corpo 2"
-      },
-    ]
+    posts: []
   }
+
+  handleData = async () => {
+
+    const postPromise = fetch('https://jsonplaceholder.typicode.com/posts');
+    const photosPromise = fetch('https://jsonplaceholder.typicode.com/photos');
+
+    let [posts, photos] = await Promise.all([postPromise, photosPromise]);
+    posts = await posts.json();
+    photos = await photos.json();
+
+    posts = posts.map((post, index) => {
+      return {
+        ...post,
+        url: photos[index].url
+      }
+
+    });
+
+    this.setState({ posts })
+
+  }
+
 
   componentDidMount() {
-    this.handleTimeout();
+    this.handleData();
   }
-  componentDidUpdate() {
-    this.handleTimeout();
 
-  };
 
-  handleTimeout = () => {
-    const { counter, shouldCounter } = this.state;
-    if (shouldCounter) {
-
-      setTimeout(() => {
-
-        this.setState({ counter: counter + 1 })
-
-      }, 1000)
-    }
-  };
-
-  componentWillUnmount() {
-    this.setState({ shouldCounter: false })
-
-  }
   render() {
 
-    const { posts, counter } = this.state;
+    const { posts } = this.state;
 
     return (
-      <div className="App">
-        <h1>{counter}</h1>
-        <div>
-          {posts.map((post) => {
-            return (
-              <div key={post.id}>
-                <h2>{post.title}</h2>
-                <p>{post.body}</p>
-              </div>
-            )
-          }
-          )}
-        </div>
-        <div>
-        </div>
+      <div className="posts">
+        {posts.map(post => {
+          return (
+            <div className="card-wrapper" key={post.id}>
+              <img className="card-image" src={post.url} alt={post.title}/>
+              <h3 className="card-title">{post.title}</h3>
+              <p className="card-body">{post.body}</p>
+            </div>
+          )
+        })}
+
       </div>
     );
   }
