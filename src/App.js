@@ -4,23 +4,19 @@ import { loadPosts } from './utils/load-posts';
 import Posts from './components/Posts';
 class App extends Component {
   state = {
-    posts: []
-  }
+    posts: [],
+  };
 
   handlePosts = async () => {
     const posts = await loadPosts();
-    this.setState({ posts })
-
-  }
-
+    this.setState({ posts });
+  };
 
   async componentDidMount() {
     await this.handlePosts();
   }
 
-
   render() {
-
     const { posts } = this.state;
 
     return (
@@ -29,7 +25,6 @@ class App extends Component {
       </div>
     );
   }
-
 }
 
 export default App;
